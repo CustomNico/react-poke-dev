@@ -1,23 +1,22 @@
-const BASE_URL = 'https://pokeapi.co/api/v2'
+// Generation 1: Pokemon 1-151 (Kanto)
+export const getGen1Pokemons = () => {
+    return fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
+        .then(response => response.json());
+};
 
-const fetchAPI = async (endpoint) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`)
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`)
-  }
-  return res.json()
-}
+// Generation 3: Pokemon 252-386 (Hoenn)
+export const getGen3Pokemons = () => {
+    return fetch('https://pokeapi.co/api/v2/pokemon?limit=135&offset=251')
+        .then(response => response.json());
+};
 
-export const getPokemons = (limit = 251, offset = 0) =>
-  fetchAPI(`/pokemon?limit=${limit}&offset=${offset}`)
+// Generic function (kept for compatibility)
+export const getPokemons = (limit = 151, offset = 0) => {
+    return fetch('https://pokeapi.co/api/v2/pokemon?limit=' + limit + '&offset=' + offset)
+        .then(response => response.json());
+};
 
-export const getPokemon = (name = '') => fetchAPI(`/pokemon/${name}`)
-
-export const getBerries = (limit = 70) => fetchAPI(`/berry?limit=${limit}`)
-
-export const getBerry = (name = '') => fetchAPI(`/berry/${name}`)
-
-export const getItems = (limit = 120, offset = 0) =>
-  fetchAPI(`/item?limit=${limit}&offset=${offset}`)
-
-export const getItem = (name = '') => fetchAPI(`/item/${name}`)
+export const getPokemon = (name = '') => {
+    return fetch('https://pokeapi.co/api/v2/pokemon/' + name)
+        .then(response => response.json());
+};

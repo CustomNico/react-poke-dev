@@ -1,50 +1,67 @@
-import React, { useState } from 'react'
-import './styles.scss'
-import { ALL_TYPES, TYPE_ICONS } from './filterConstants'
+import React, { useState } from 'react';
+import styled from "styled-components";
+import PropTypes from 'prop-types';
 
-export const SearchFilter = ({ onNameChange, onTypesChange, types = [] }) => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedTypes, setSelectedTypes] = useState([])
+const Wrapper = styled.div`
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
 
-  const updateTextSearch = (e) => {
-    const value = e.target.value.toLowerCase()
-    setSearchTerm(value)
-    onNameChange(value)
-  }
+    width: calc(100% - 80px);
+    max-width: 900px;
+    text-align: center;
 
-  const toggleType = (type) => {
-    const updatedTypes = selectedTypes.includes(type)
-      ? selectedTypes.filter((t) => t !== type)
-      : [...selectedTypes, type]
+    @media screen and (min-width: 420px) {
+        margin-left: 75px;
+        margin-right: 75px;
 
-    setSelectedTypes(updatedTypes)
-    onTypesChange(updatedTypes)
-  }
+        width: calc(100% - 150px);
+    }
+    @media screen and (min-width: 900px) {
+        margin-left: 120px;
+        margin-right: 120px;
 
-  return (
-    <div className="searchFilter">
-      <input
-        className="input-bar"
-        placeholder="Search by name"
-        type="text"
-        value={searchTerm}
-        onChange={updateTextSearch}
-      />
+        width: calc(100% - 240px);
+    }
+    @media screen and (min-width: 1200px) {
+        margin-left: auto;
+        margin-right: auto;
 
-      {types.length > 0 && (
-        <div className="types-wrapper">
-          {ALL_TYPES.filter((type) => types.includes(type)).map((type) => (
-            <button
-              key={type}
-              className={`type-button ${selectedTypes.includes(type) ? 'active' : ''}`}
-              onClick={() => toggleType(type)}
-            >
-              <img src={TYPE_ICONS[type]} alt={type} />
-              {type}
-            </button>
-          ))}
+        width: 100%;
+    }
+`;
+
+const InputBar = styled.input `
+    min-width: 200px;
+    width: 50%;
+    margin-right: 30px;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid grey;
+    padding: 1px 10px;
+`;
+
+function SearchFilter(props) {
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const updateTextSearch = (e) => {
+        setSearchTerm(e.target.value);
+        props.onChange(e.target.value)
+    }
+
+    return (
+        <div>
+            <Wrapper>
+                <InputBar placeholder={"Search by name"} type="text" value={searchTerm} onChange={updateTextSearch}/>
+            </Wrapper>
         </div>
-      )}
-    </div>
-  )
+    );
+
 }
+
+SearchFilter.propTypes = {
+    onChange: PropTypes.func,
+};
+
+export default SearchFilter;
