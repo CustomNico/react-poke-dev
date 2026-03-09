@@ -12,6 +12,17 @@ import { isFavourite } from '../../../utils/favourites'
 import logo from '../../../assets/pokemon-logo.png'
 
 import './styles.scss'
+const POKEMON_CON_MEGA = [
+  'venusaur', 'charizard', 'blastoise', 'alakazam', 'gengar',
+  'kangaskhan', 'pinsir', 'gyarados', 'aerodactyl', 'mewtwo',
+  'ampharos', 'scizor', 'heracross', 'houndoom', 'tyranitar',
+  'blaziken', 'gardevoir', 'mawile', 'aggron', 'medicham',
+  'manectric', 'sharpedo', 'camerupt', 'altaria', 'banette',
+  'absol', 'glalie', 'salamence', 'metagross', 'latias',
+  'latios', 'rayquaza', 'lopunny', 'garchomp', 'lucario',
+  'abomasnow', 'gallade', 'audino', 'diancie', 'sceptile',
+  'swampert', 'sableye', 'pidgeot', 'beedrill', 'slowbro', 'steelix'
+]
 
 export const PokemonList = ({ favs }) => {
   const [pokemons, setPokemons] = useState([])
@@ -90,6 +101,18 @@ export const PokemonList = ({ favs }) => {
                     {!favs && <FavouriteToggler element={poke.name} />}
                     <img src={img_url} alt={poke.name} />
                     <div className="poke-name">{poke.name}</div>
+                    {POKEMON_CON_MEGA.includes(poke.name) && (
+                      <button
+                        className="mega-btn"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          alert('¡' + poke.name + ' tiene Mega Evolución! 🦙')
+                        }}
+                        title="Tiene Mega Evolución"
+                      >
+                        🦙
+                      </button>
+                    )}
                   </div>
                 )
               })}
